@@ -15,7 +15,12 @@ Scene::Scene(SDL_Window *window, SDL_Renderer *renderer)
   this->width = 0;
   this->height = 0;
   this->player = NULL;
+  this->map.setTextures(this->renderer);
   this->clock.adjust(0);
+
+  if (this->map.load("map.lvl") == FALSE) {
+    exit(EXIT_FAILURE);
+  }
 
   // Retrieve window's dimension
   SDL_GetWindowSize(this->window, &this->width, &this->height);
@@ -59,6 +64,15 @@ void Scene::draw(void)
   // clear the screen
   SDL_SetRenderDrawColor(this->renderer, 0, 0, 200, 255);
   SDL_RenderClear(this->renderer);
+
+  // render map
+  for (size_t i = 0 ; i < NB_BLOCKS_WIDTH ; i++) {
+    for (size_t j = 0 ; j < NB_BLOCKS_HEIGHT ; j++) {
+      SDL_Rect rect = { i * BLOCK_SIZE, j * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE };
+      BLOCK_TYPE tile = this->map.getTile(i, j);
+      SDL_RenderCopy(this->renderer, this->map.getTexture(tile), NULL, &rect);
+    }
+  }
 
   // retrieve x and y position of the player
   float16 x = 0, y = 0;
@@ -112,7 +126,7 @@ void Scene::manageEvents(void)
         break;
 
       case SDL_MOUSEBUTTONDOWN:
-        printf("On tire!");
+        //printf("On tire!");
         break;
     }
   }
@@ -192,7 +206,7 @@ void Scene::animate(void)
 
     float16 distance = (float) this->timeLastLoop * VELOCITY / 1000.0f;
 
-    // cutting the distance into pieces
+    // cutting the distance into segments
     #define DELTA_DISTANCE (0.25f)
 
     uint32 nbSegments = (uint32) (distance / DELTA_DISTANCE);
@@ -210,6 +224,6 @@ void Scene::animate(void)
 
 void Scene::setPlayer()
 {
-  this->player = new Player(10, 10, "images/mario_haut.gif",  "images/mario_bas.gif",  "images/mario_gauche.gif",  "images/mario_droite.gif");
+  this->player = new Player(10, 10);
   this->player->setTextures(this->renderer);
 }

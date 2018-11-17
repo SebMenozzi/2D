@@ -3,15 +3,15 @@
 #include <SDL2/SDL_image.h>
 #include "constants.h"
 
-Player::Player(float16 x, float16 y, const char* up, const char* down, const char* left, const char* right)
+Player::Player(float16 x, float16 y)
 {
   this->x = x;
   this->y = y;
 
-  this->images[UP] = IMG_Load(up);
-  this->images[DOWN] = IMG_Load(down);
-  this->images[LEFT] = IMG_Load(left);
-  this->images[RIGHT] = IMG_Load(right);
+  this->images[UP] = IMG_Load("images/mario_haut.gif");
+  this->images[DOWN] = IMG_Load("images/mario_bas.gif");
+  this->images[LEFT] = IMG_Load("images/mario_gauche.gif");
+  this->images[RIGHT] = IMG_Load("images/mario_droite.gif");
 
   // Idle State
   this->currentState = DOWN;
@@ -35,7 +35,7 @@ void Player::move(float16 distance, float16 direction)
   this->y = newY;
 }
 
-void Player::getPosition(float16 *x, float16 *y)
+void Player::getPosition(float16* x, float16* y)
 {
   *x = this->x;
   *y = this->y;
@@ -52,7 +52,7 @@ void Player::changeState(MOVEMENT movement)
   this->currentState = movement;
 }
 
-void Player::setTextures(SDL_Renderer *renderer)
+void Player::setTextures(SDL_Renderer* renderer)
 {
   this->textures[UP] = SDL_CreateTextureFromSurface(renderer, this->images[UP]);
   this->textures[DOWN] = SDL_CreateTextureFromSurface(renderer, this->images[DOWN]);

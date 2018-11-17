@@ -77,7 +77,7 @@ bool8 Game::createWindow(void)
   this->window = SDL_CreateWindow(TITLE,
                                   SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                   this->width, this->height,
-                                  0);
+                                  SDL_WINDOW_SHOWN /*| SDL_WINDOW_RESIZABLE | SDL_RENDERER_PRESENTVSYNC*/);
 
   if (this->window == NULL) {
     std::cerr << "Window could not be created! SDL Error: " <<  SDL_GetError() << std::endl;

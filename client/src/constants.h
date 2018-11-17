@@ -9,6 +9,6 @@
 #define TITLE "My First 2D Game"
 
 enum MOVEMENT { UP, DOWN, LEFT, RIGHT };
-enum BLOCK_TYPE { EMPTY, WALL, BOX, GOAL, PLAYER };
+enum BLOCK_TYPE { EMPTY, WALL, BOX, REDBOX, GOAL };
 
 #endif // CONSTANTS_H_INCLUDED

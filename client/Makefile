@@ -2,7 +2,7 @@
 .SUFFIXES :
 
 NAME = client
-SRC =	src/main.cpp src/game.cpp src/scene.cpp src/player.cpp src/iniFile.cpp src/clock.cpp
+SRC =	src/main.cpp src/game.cpp src/scene.cpp src/player.cpp src/map.cpp src/iniFile.cpp src/clock.cpp src/udpClient.cpp
 
 CC = g++
 

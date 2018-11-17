@@ -9,14 +9,14 @@
 class Player
 {
   public:
-    Player(float16 x, float16 y, const char* up, const char* down, const char* left, const char* right);
+    Player(float16 x, float16 y);
     ~Player(void);
 
     void move(float16 distance, float16 direction);
     void getPosition(float16* x, float16* y);
     void teleport(float16 x, float16 y);
     void changeState(MOVEMENT movement);
-    void setTextures(SDL_Renderer *renderer);
+    void setTextures(SDL_Renderer* renderer);
 
     float16 getX();
     float16 getY();

@@ -1,10 +1,11 @@
 #ifndef SCENE_H_INCLUDED
 #define SCENE_H_INCLUDED
 
-#include "types.h"
 #include <string>
 #include <SDL2/SDL.h>
+#include "types.h"
 #include "clock.h"
+#include "map.h"
 #include "player.h"
 
 class Scene
@@ -16,6 +17,7 @@ class Scene
     int height;
 
     Clock clock;
+    Map map;
 
     bool8 quit;
     uint32 timeLastLoop;
