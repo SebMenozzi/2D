@@ -1,6 +1,4 @@
 #include "game.h"
-#include <fstream>
-#include <sstream>
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -18,12 +16,14 @@ Game::Game(void)
   this->renderer = NULL;
 
   this->initSDL();
+  this->initIMG();
   this->initSDLttf();
 }
 
 Game::~Game(void)
 {
   TTF_Quit();
+  IMG_Quit();
   SDL_Quit();
 }
 
@@ -41,7 +41,6 @@ bool8 Game::start(void)
   this->waitForKeyPressed();
 
   this->destroyRenderer();
-
   this->destroyWindow();
 
   this->iniGame.change("username", "seb");
@@ -55,7 +54,15 @@ bool8 Game::start(void)
 void Game::initSDL(void)
 {
   if(SDL_Init(SDL_INIT_VIDEO) < 0) {
-    fprintf(stderr, "Could not initialize SDL : %s\n", SDL_GetError());
+    std::cerr << "Could not initialize SDL! SDL Error: " <<  SDL_GetError() << std::endl;
+    exit(EXIT_FAILURE);
+  }
+}
+
+void Game::initIMG(void)
+{
+  if(IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
+    std::cerr << "Could not initialize SDL_image" << std::endl;
     exit(EXIT_FAILURE);
   }
 }
@@ -73,7 +80,7 @@ bool8 Game::createWindow(void)
                                   0);
 
   if (this->window == NULL) {
-    fprintf(stderr, "Window could not be created! SDL Error: %s\n", SDL_GetError());
+    std::cerr << "Window could not be created! SDL Error: " <<  SDL_GetError() << std::endl;
     return FALSE;
   }
 
@@ -85,7 +92,7 @@ bool8 Game::createRenderer(void)
   this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
 
   if (this->renderer == NULL) {
-    fprintf(stderr, "Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+    std::cerr << "Renderer could not be created! SDL Error: " <<  SDL_GetError() << std::endl;
     return FALSE;
   }
 }

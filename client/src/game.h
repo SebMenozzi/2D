@@ -14,6 +14,7 @@ class Game
 
   private:
     void initSDL(void);
+    void initIMG(void);
     void initSDLttf(void);
     bool8 createWindow(void);
     bool8 createRenderer(void);

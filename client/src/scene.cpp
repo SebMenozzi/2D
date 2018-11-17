@@ -57,6 +57,7 @@ void Scene::start()
 void Scene::draw(void)
 {
   // clear the screen
+  SDL_SetRenderDrawColor(this->renderer, 0, 0, 200, 255);
   SDL_RenderClear(this->renderer);
 
   // retrieve x and y position of the player
@@ -68,8 +69,28 @@ void Scene::draw(void)
   //SDL_QueryTexture(this->player->getTexture(), NULL, NULL, &w, &h);
 
   SDL_Rect playerRect = { x, y , BLOCK_SIZE, BLOCK_SIZE };
-  // copy the texture to the rendering context
-  SDL_RenderCopy(this->renderer, this->player->getTexture(), NULL, &playerRect);
+
+  if (this->player->getTexture()) {
+    // copy the texture to the rendering context
+    SDL_RenderCopy(this->renderer, this->player->getTexture(), NULL, &playerRect);
+  }
+  else {
+    SDL_SetRenderDrawColor(this->renderer, 200, 0, 200, 255);
+    SDL_RenderFillRect(this->renderer, &playerRect);
+  }
+
+  /*
+  // render pink square in the middle of the screen
+
+  SDL_Rect rect;
+  rect.w = 120;
+  rect.h = 120;
+  rect.x = (width / 2) - (rect.w / 2);
+  rect.y = (height / 2) - (rect.h / 2);
+
+  SDL_SetRenderDrawColor(this->renderer, 200, 0, 200, 255);
+  SDL_RenderFillRect(this->renderer, &rect);
+  */
 
   // update the screen
   SDL_RenderPresent(this->renderer);
@@ -122,6 +143,7 @@ void Scene::animate(void)
 
   // Going forwards
   if (keys[SDL_GetScancodeFromKey(SDLK_z)]) {
+    this->player->changeState(UP);
     movement = TRUE;
 
     if (keys[SDL_GetScancodeFromKey(SDLK_q)])
@@ -133,6 +155,7 @@ void Scene::animate(void)
   }
   // Going backwards
   else if (keys[SDL_GetScancodeFromKey(SDLK_s)]) {
+    this->player->changeState(DOWN);
     movement = TRUE;
 
     if (keys[SDL_GetScancodeFromKey(SDLK_q)])
@@ -147,13 +170,17 @@ void Scene::animate(void)
   {
     // Going left
     if (keys[SDL_GetScancodeFromKey(SDLK_q)]) {
-      direction = 90.0;
+      this->player->changeState(LEFT);
       movement = TRUE;
+
+      direction = 90.0;
     }
     // Going right
     else if (keys[SDL_GetScancodeFromKey(SDLK_d)]) {
-      direction = -90.0;
+      this->player->changeState(RIGHT);
       movement = TRUE;
+
+      direction = -90.0;
     }
   }
 
@@ -161,7 +188,7 @@ void Scene::animate(void)
 
   // if there is a movement
   if (movement) {
-    #define VELOCITY (10.0f)
+    #define VELOCITY (30.0f)
 
     float16 distance = (float) this->timeLastLoop * VELOCITY / 1000.0f;
 
@@ -183,6 +210,6 @@ void Scene::animate(void)
 
 void Scene::setPlayer()
 {
-  this->player = new Player(10, 10, "images/mario_haut.gif",  "images/mario_bas.gif",  "images/mario_gauche.gif",  "images/mario_droit.gif");
+  this->player = new Player(10, 10, "images/mario_haut.gif",  "images/mario_bas.gif",  "images/mario_gauche.gif",  "images/mario_droite.gif");
   this->player->setTextures(this->renderer);
 }
