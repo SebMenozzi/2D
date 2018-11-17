@@ -210,7 +210,7 @@ void Scene::animate(void)
     #define DELTA_DISTANCE (0.25f)
 
     uint32 nbSegments = (uint32) (distance / DELTA_DISTANCE);
-    float16 RemainingDistance = fmod(distance, DELTA_DISTANCE);
+    float16 remainingDistance = fmod(distance, DELTA_DISTANCE);
 
     // For each segment
     for(uint32 i = 0; i < nbSegments; i++) {
@@ -218,7 +218,7 @@ void Scene::animate(void)
     }
 
     // For the remaining distance
-    this->player->move(RemainingDistance, direction);
+    this->player->move(remainingDistance, direction);
   }
 }
 
